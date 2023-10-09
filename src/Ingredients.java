@@ -1,6 +1,11 @@
 public enum Ingredients {
     ALCOHOL,
     ASPARTAME,
+    CALCIUM,
+    FRUIT,
+    MILK,
     SODA,
-    SUGAR
+    SUGAR,
+    TEA,
+    WATER
 }
