@@ -1,3 +1,6 @@
 public enum Ingredients {
-    AlCOHOL
+    ALCOHOL,
+    ASPARTAME,
+    SODA,
+    SUGAR
 }

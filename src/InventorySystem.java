@@ -5,6 +5,8 @@ public class InventorySystem {
     private MyOwnLinkedList<Beverage> beverages;
     private MyOwnLinkedList<Integer> numberOfBeverages;
 
+    private final int defaultNumberOfIngredients = 10000;
+
     public InventorySystem() {
         ingredients = new MyOwnLinkedList<>();
         numberOfIngredients = new MyOwnLinkedList<>();
@@ -13,7 +15,7 @@ public class InventorySystem {
 
         for (Ingredients ingredient : Ingredients.values()) {
             ingredients.add(ingredient.name());
-            numberOfIngredients.add(10000);
+            numberOfIngredients.add(defaultNumberOfIngredients);
         }
     }
 
@@ -107,6 +109,5 @@ public class InventorySystem {
         }
         return -1;
     }
-
 
 }

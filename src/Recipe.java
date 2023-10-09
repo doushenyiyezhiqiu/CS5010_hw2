@@ -45,6 +45,6 @@ public class Recipe {
 
     @Override
     public String toString() {
-        return "The recipe is for " + drinkName;
+        return "Recipe of " + drinkName;
     }
 }

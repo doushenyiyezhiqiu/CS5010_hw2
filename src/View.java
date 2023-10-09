@@ -1,3 +1,4 @@
+import java.util.Locale;
 import java.util.Scanner;
 
 public class View {
@@ -42,12 +43,13 @@ public class View {
     public static int userEnterIngredientsAndUnits(MyOwnLinkedList<String> ingredients, MyOwnLinkedList<Integer> numberOfIngredients) {
         Scanner scanner = MyScanner.getScanner();
         for (Ingredients ingredient : Ingredients.values()) {
-            System.out.println("Do you need " + ingredient.name() + " ?(y/n)");
+            System.out.println("Do you need " + ingredient.name().toLowerCase(Locale.ROOT) + "?(y/n)");
             String result = scanner.nextLine();
             if (result.equals("y")) {
                 ingredients.add(ingredient.name());
-                System.out.println("How much " + ingredient.name() + " do you need?");
+                System.out.println("How much " + ingredient.name().toLowerCase(Locale.ROOT) + " do you need?");
                 int ans = scanner.nextInt();
+                scanner.nextLine();
                 numberOfIngredients.add(ans);
             }
         }
