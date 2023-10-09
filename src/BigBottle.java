@@ -1,3 +1,6 @@
+/**
+ * The BigBottle class represents one bottle class which can contain more beverage.
+ */
 public class BigBottle implements Bottle{
     private boolean dirty;
     private static final int units = 2;

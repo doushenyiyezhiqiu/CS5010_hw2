@@ -1,3 +1,6 @@
+/**
+ * The class represents recipe.
+ */
 public class Recipe {
     private String drinkName;
     private MyOwnLinkedList<String> ingredients;

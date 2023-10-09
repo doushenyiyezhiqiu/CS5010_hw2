@@ -1,3 +1,6 @@
+/**
+ * The SmallBottle class represents one bottle class which can contain less beverage.
+ */
 public class SmallBottle implements Bottle {
     private boolean dirty;
     private static final int units = 1;

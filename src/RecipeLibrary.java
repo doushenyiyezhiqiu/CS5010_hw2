@@ -1,3 +1,6 @@
+/**
+ * The class represents recipe library which contains all recipe existed in the factory.
+ */
 public class RecipeLibrary {
     private MyOwnLinkedList<Recipe> recipeCatalog;
 

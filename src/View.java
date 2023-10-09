@@ -1,6 +1,9 @@
 import java.util.Locale;
 import java.util.Scanner;
 
+/**
+ * The View class shows all messages we want to be shown to the user.
+ */
 public class View {
 
     public static void welcomeMessage() {

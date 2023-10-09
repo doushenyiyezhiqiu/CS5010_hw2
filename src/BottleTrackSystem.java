@@ -1,3 +1,8 @@
+/**
+ * The class represents bottle track system in the factory. It will track each bottle.
+ * "hasEmptyBottles()" method will check if there are enough bottles for filling in.
+ * "fillInBottles()" method will fill in beverage as units provided.
+ */
 public class BottleTrackSystem {
     private MyOwnLinkedList<BigBottle> bigBottleList;
     private MyOwnLinkedList<SmallBottle> smallBottleList;

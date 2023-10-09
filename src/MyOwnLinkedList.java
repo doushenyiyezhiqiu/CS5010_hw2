@@ -1,3 +1,8 @@
+/**
+ * The class is I created for using linkedlist-like class in this project.
+ * It contains almost all functions the linkedlist class have.
+ * @param <T> "T" can represent all types of object.
+ */
 public class MyOwnLinkedList<T> {
 
     private Node<T> head;

@@ -1,3 +1,9 @@
+/**
+ * The class represents the whole beverage factory.
+ * "run()" method will run the whole factory and make every operations.
+ * "checkIfEnoughBottlesAndIngredients()" method will check if there are enough bottles and ingredients in the factory.
+ * "produce()" method will represent the produce process.
+ */
 public class Factory {
     private InventorySystem inventorySystem;
     private RecipeLibrary recipeLibrary;
@@ -108,6 +114,7 @@ public class Factory {
         return true;
     }
 
+    // begin produce the beverage via recipe
     private void produce(Recipe recipe) {
         // fill in bottle
         bottleTrackSystem.fillInBottles(recipe);

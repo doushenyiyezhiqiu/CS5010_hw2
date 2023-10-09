@@ -1,3 +1,6 @@
+/**
+ * The enum class shows which ingredient the factory inventory system has.
+ */
 public enum Ingredients {
     ALCOHOL,
     ASPARTAME,

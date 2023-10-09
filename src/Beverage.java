@@ -1,3 +1,6 @@
+/**
+ * This class represents beverage.
+ */
 public class Beverage {
     private String name;
     private Recipe recipe;

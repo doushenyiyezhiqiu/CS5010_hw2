@@ -1,3 +1,7 @@
+/**
+ * The class represents inventory system in the factory. We store ingredients and beverage produced here.
+ * "checkIfEnoughIngredients()" method will check if there are enough ingredients in the inventory system.
+ */
 public class InventorySystem {
     private MyOwnLinkedList<String> ingredients;
     private MyOwnLinkedList<Integer> numberOfIngredients;
