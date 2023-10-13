@@ -94,6 +94,7 @@ public class BottleTrackSystem {
             if (!current.isDirty()) {
                 needUnits -= current.getUnits();
                 current.fillInBeverage(recipe);
+                current.setDirty(true);
             }
         }
     }

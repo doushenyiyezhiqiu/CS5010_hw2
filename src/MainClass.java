@@ -10,5 +10,6 @@ public class MainClass {
         factory.run();
 
         MyScanner.closeScanner();
+
     }
 }

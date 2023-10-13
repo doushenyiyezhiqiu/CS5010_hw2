@@ -21,6 +21,10 @@ public class Factory {
     public void run() {
         View.welcomeMessage();
         while (!quitFlag) {
+            boolean ifCleanContainer = View.userIfCleanContainer(this.bottleTrackSystem.getBigBottleList(), this.bottleTrackSystem.getSmallBottleList());
+            if (ifCleanContainer) cleanContainer();
+            View.showRecipeLibrary(this.recipeLibrary.getRecipeCatalog());
+
             String drinkName = View.userEnterDrinkName();
             if (recipeLibrary.contains(drinkName)) {
                 boolean res = View.askIfUseExistingRecipe();
@@ -37,7 +41,9 @@ public class Factory {
                     int index = recipeLibrary.index(drinkName);
                     MyOwnLinkedList<String> tempComponents = new MyOwnLinkedList<>();
                     MyOwnLinkedList<Integer> tempNumberOfComponents = new MyOwnLinkedList<>();
-                    int tempUnits = View.userEnterIngredientsAndUnits(tempComponents, tempNumberOfComponents);
+                    int tempUnits = View.userEnterIngredientsAndUnits(tempComponents, tempNumberOfComponents, inventorySystem.getIngredients());
+                    View.userAddOtherIngredients(tempComponents, tempNumberOfComponents, inventorySystem.getIngredients(), inventorySystem.getNumberOfIngredients());
+
                     if (tempUnits > BottleTrackSystem.getTotalUnits()) {
                         View.showNoEnoughBottles();
                         quitFlag = View.quitMessage();
@@ -47,7 +53,7 @@ public class Factory {
                         quitFlag = View.quitMessage();
                         continue;
                     }
-                    Recipe existingRecipe = recipeLibrary.getRecipeCatalog().get(index);
+                    Recipe existingRecipe = this.recipeLibrary.getRecipeCatalog().get(index);
                     existingRecipe.setIngredients(tempComponents);
                     existingRecipe.setNumberOfIngredients(tempNumberOfComponents);
                     existingRecipe.setNumberOfUnits(tempUnits);
@@ -56,7 +62,9 @@ public class Factory {
             } else {
                 MyOwnLinkedList<String> tempComponents = new MyOwnLinkedList<>();
                 MyOwnLinkedList<Integer> tempNumberOfComponents = new MyOwnLinkedList<>();
-                int tempUnits = View.userEnterIngredientsAndUnits(tempComponents, tempNumberOfComponents);;
+                int tempUnits = View.userEnterIngredientsAndUnits(tempComponents, tempNumberOfComponents, this.inventorySystem.getIngredients());
+                View.userAddOtherIngredients(tempComponents, tempNumberOfComponents, this.inventorySystem.getIngredients(), this.inventorySystem.getNumberOfIngredients());
+
                 if (tempUnits > BottleTrackSystem.getTotalUnits()) {
                     View.showNoEnoughBottles();
                     quitFlag = View.quitMessage();
@@ -66,9 +74,11 @@ public class Factory {
                     quitFlag = View.quitMessage();
                     continue;
                 }
-                Recipe tempRecipe = new Recipe(drinkName, tempComponents, tempNumberOfComponents, tempUnits);
-                recipeLibrary.getRecipeCatalog().add(tempRecipe);
-                produce(tempRecipe);
+                if (View.userIfCreateRecipe()) {
+                    Recipe tempRecipe = new Recipe(drinkName, tempComponents, tempNumberOfComponents, tempUnits);
+                    this.recipeLibrary.getRecipeCatalog().add(tempRecipe);
+                    produce(tempRecipe);
+                }
             }
             quitFlag = View.quitMessage();
         }
@@ -76,25 +86,25 @@ public class Factory {
     }
 
     private void cleanContainer() {
-        MyOwnLinkedList<BigBottle> bigBottleList = bottleTrackSystem.getBigBottleList();
-        MyOwnLinkedList<SmallBottle> smallBottleList = bottleTrackSystem.getSmallBottleList();
+        MyOwnLinkedList<BigBottle> bigBottleList = this.bottleTrackSystem.getBigBottleList();
+        MyOwnLinkedList<SmallBottle> smallBottleList = this.bottleTrackSystem.getSmallBottleList();
 
-        for (int i = 0; i < bottleTrackSystem.getNumberOfBigBottle(); i++) {
+        for (int i = 0; i < this.bottleTrackSystem.getNumberOfBigBottle(); i++) {
             BigBottle current = bigBottleList.get(i);
             if (current.isDirty()) {
                 Beverage temp = current.cleanBottle();
                 for (int j = 0; j < BigBottle.getUnits(); j++) {
-                    inventorySystem.removeOneBeverage(temp);
+                    this.inventorySystem.removeOneBeverage(temp);
                 }
             }
         }
 
-        for (int i = 0; i < bottleTrackSystem.getNumberOfSmallBottle(); i++) {
+        for (int i = 0; i < this.bottleTrackSystem.getNumberOfSmallBottle(); i++) {
             SmallBottle current = smallBottleList.get(i);
             if (current.isDirty()) {
                 Beverage temp = current.cleanBottle();
                 for (int j = 0; j < BigBottle.getUnits(); j++) {
-                    inventorySystem.removeOneBeverage(temp);
+                    this.inventorySystem.removeOneBeverage(temp);
                 }
             }
         }
@@ -104,10 +114,10 @@ public class Factory {
     // please note that do not consider the units beyond the total units factory can use
     private boolean checkIfEnoughBottlesAndIngredients(int amount, MyOwnLinkedList<String> components, MyOwnLinkedList<Integer> numberOfComponents) {
         // check if there is enough bottles in factory. It is not possible that the stored recipe will need more bottles than the total bottles.
-        if (!bottleTrackSystem.hasEmptyBottles(amount)) {
+        if (!this.bottleTrackSystem.hasEmptyBottles(amount)) {
             cleanContainer();
         }
-        if (!inventorySystem.checkIfEnoughIngredients(components, numberOfComponents)) {
+        if (!this.inventorySystem.checkIfEnoughIngredients(components, numberOfComponents)) {
             View.showNoEnoughIngredients();
             return false;
         }
@@ -117,21 +127,22 @@ public class Factory {
     // begin produce the beverage via recipe
     private void produce(Recipe recipe) {
         // fill in bottle
-        bottleTrackSystem.fillInBottles(recipe);
+        this.bottleTrackSystem.fillInBottles(recipe);
+
         // add beverage into inventory system
-        if (!inventorySystem.containsBeverage(recipe.getDrinkName())) {
-            inventorySystem.getBeverages().add(new Beverage(recipe.getDrinkName(), recipe));
-            inventorySystem.getNumberOfBeverages().add(0);
+        if (!this.inventorySystem.containsBeverage(recipe.getDrinkName())) {
+            this.inventorySystem.getBeverages().add(new Beverage(recipe.getDrinkName(), recipe));
+            this.inventorySystem.getNumberOfBeverages().add(0);
         }
-        int index = inventorySystem.indexOfBeverage(recipe.getDrinkName());
-        inventorySystem.getNumberOfBeverages().set(index, inventorySystem.getNumberOfBeverages().get(index) + recipe.getNumberOfUnits());
+        int index = this.inventorySystem.indexOfBeverage(recipe.getDrinkName());
+        this.inventorySystem.getNumberOfBeverages().set(index, this.inventorySystem.getNumberOfBeverages().get(index) + recipe.getNumberOfUnits());
         // delete the ingredients used
         for (int i = 0; i < recipe.getIngredients().size(); i++) {
             String current = recipe.getIngredients().get(i);
-            for (int j = 0; j < inventorySystem.getIngredients().size(); j++) {
-                String temp = inventorySystem.getIngredients().get(i);
+            for (int j = 0; j < this.inventorySystem.getIngredients().size(); j++) {
+                String temp = this.inventorySystem.getIngredients().get(i);
                 if (temp.equals(current)) {
-                    inventorySystem.getNumberOfIngredients().set(j, inventorySystem.getNumberOfIngredients().get(j) - recipe.getNumberOfIngredients().get(i));
+                    this.inventorySystem.getNumberOfIngredients().set(j, this.inventorySystem.getNumberOfIngredients().get(j) - recipe.getNumberOfIngredients().get(i));
                 }
             }
         }

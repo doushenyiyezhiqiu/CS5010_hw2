@@ -9,4 +9,21 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="groovy-5.0.0-alpha-1" level="project" />
   </component>
+
+  <dependencies>
+      <!-- ... possibly other dependencies ... -->
+      <dependency>
+          <groupId>org.junit.jupiter</groupId>
+          <artifactId>junit-jupiter-api</artifactId>
+          <version>5.8.1</version>
+          <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.junit.jupiter</groupId>
+          <artifactId>junit-jupiter-engine</artifactId>
+          <version>5.8.1</version>
+          <scope>test</scope>
+      </dependency>
+  </dependencies>
+
 </module>

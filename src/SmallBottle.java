@@ -45,6 +45,7 @@ public class SmallBottle implements Bottle {
     public void fillInBeverage(Recipe recipe) {
         beverage.setName(recipe.getDrinkName());
         beverage.setRecipe(recipe);
+        dirty = true;
     }
 
     @Override
